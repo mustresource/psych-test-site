@@ -143,9 +143,14 @@
 
                 const filteredItems = computed(() => {
                     return items.value.filter(item => {
-                        const mSearch = item['測驗名稱'] ? item['測驗名稱'].toLowerCase().includes(searchQuery.value.toLowerCase()) : false;
-                        const mCat = selectedCategory.value === '' || item['類別'] === selectedCategory.value;
-                        return mSearch && mCat;
+        // 抓取「測驗名稱」或第一欄
+        const name = item['測驗名稱'] || Object.values(item)[0] || '';
+        // 抓取「類別」或第二欄
+        const cat = item['類別'] || Object.values(item)[1] || '';
+        
+        const mSearch = name.toLowerCase().includes(searchQuery.value.toLowerCase());
+        const mCat = selectedCategory.value === '' || cat === selectedCategory.value;
+        return mSearch && mCat;
                     });
                 });
 
